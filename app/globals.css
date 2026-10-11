@@ -47,7 +47,6 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Cyber Blue — situs ini dark-only, jadi cukup satu set token */
 :root {
   color-scheme: dark;
   --background: #080f1c;
@@ -97,7 +96,6 @@
     @apply bg-background text-foreground;
     overflow-wrap: break-word;
   }
-  /* Focus terlihat jelas untuk semua tautan dan tombol; utilitas outline-none tetap bisa menimpa */
   :where(a, button, input):focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
@@ -105,7 +103,6 @@
 }
 
 @layer components {
-  /* Grid tipis di belakang hero, memudar ke bawah */
   .hero-grid {
     background-image:
       linear-gradient(to right, rgb(56 189 248 / 0.06) 1px, transparent 1px),
@@ -114,25 +111,25 @@
     background-size: 48px 48px, 48px 48px, auto;
     mask-image: linear-gradient(to bottom, #000 35%, transparent);
   }
-}
 
-@layer components {
-  /* Entrance hero: fade-up halus. Delay diatur lewat style animationDelay */
   .fade-up {
-    animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) backwards;
   }
 
-  /* Scroll reveal kartu: disembunyikan hanya bila JS aktif, dibuka oleh useReveal */
+  .page-enter {
+    animation: fade-up 0.3s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  /* Kartu produk: tersembunyi hanya bila JS aktif, dibuka oleh useReveal saat masuk viewport */
   @media (scripting: enabled) {
     .reveal:not([data-visible]) {
       opacity: 0;
     }
   }
   .reveal[data-visible] {
-    animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation: fade-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) backwards;
   }
 
-  /* Baris chip yang bisa digeser tanpa scrollbar */
   .no-scrollbar {
     scrollbar-width: none;
   }
@@ -144,11 +141,10 @@
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(0.75rem);
+    transform: translateY(0.5rem);
   }
 }
 
-/* Hormati "kurangi gerakan": animasi dan transisi dibuat instan */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,

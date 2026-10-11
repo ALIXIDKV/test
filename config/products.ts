@@ -1,33 +1,40 @@
 import {
   Bot, Code2, Gem, Globe2, Palette, Send, Server,
   ShieldCheck, Sparkles, Terminal, TrendingUp, Video,
+  type LucideIcon,
 } from 'lucide-react'
 
-export type Category = 'Bot' | 'Script' | 'Nomor Virtual' | 'Sosial Media' | 'Kreatif' | 'Digital'
-export const categories: Category[] = ['Bot', 'Script', 'Nomor Virtual', 'Sosial Media', 'Kreatif', 'Digital']
+// Kategori tampil di filter dan katalog sesuai urutan ini. Kategori baru cukup ditambah di sini.
+export const categories = [
+  { name: 'Bot', icon: Bot, desc: 'Jadi bot & sewa bot' },
+  { name: 'Script', icon: Code2, desc: 'SC Ourin & rename script' },
+  { name: 'Nomor Virtual', icon: Globe2, desc: 'Nomor luar negeri' },
+  { name: 'Sosial Media', icon: TrendingUp, desc: 'Instagram, TikTok, YouTube' },
+  { name: 'Kreatif', icon: Palette, desc: 'Edit foto, video, poster' },
+  { name: 'Digital', icon: Server, desc: 'Panel, APK premium, JPM' },
+] as const
 
-export const categoryIcon = {
-  Bot, Script: Code2, 'Nomor Virtual': Globe2, 'Sosial Media': TrendingUp, Kreatif: Palette, Digital: Server,
-}
+export type Category = (typeof categories)[number]['name']
 
 export type Plan = { name: string; price: string; tag?: string }
+
 export type Block =
   | { type: 'plans'; title?: string; rows: Plan[] }
   | { type: 'list'; title: string; items: string[]; id?: string; check?: boolean }
   | { type: 'compare'; title: string; id?: string; sides: { title: string; items: string[] }[] }
   | { type: 'chips'; title?: string; items: string[]; pill?: boolean }
-  | { type: 'links'; title?: string; rows: { name: string; desc?: string; icon?: typeof Bot }[] }
+  | { type: 'links'; title?: string; rows: { name: string; desc?: string; icon?: LucideIcon }[] }
   | { type: 'stat'; value: string; label: string }
   | { type: 'note'; text: string }
 
 export type Product = {
-  id: string
+  id: string // unik; dipakai sebagai alamat langsung, mis. /produk#sewa-bot
   title: string
-  icon: typeof Bot
+  icon: LucideIcon
   category: Category
   desc: string
-  meta?: string
-  cta?: string
+  meta?: string // label di kartu; jika kosong otomatis "Mulai <harga terendah>"
+  cta?: string // teks tombol order di bawah detail
   blocks: Block[]
 }
 
@@ -230,35 +237,3 @@ export const products: Product[] = [
     blocks: [{ type: 'note', text: 'Hubungi admin untuk layanan lainnya.' }],
   },
 ]
-
-// Anchor lama (navbar, hero, footer) yang menunjuk ke bagian di dalam produk
-export const anchorAlias: Record<string, string> = {
-  ketentuan: 'sewa-bot',
-  keuntungan: 'sewa-bot',
-  digital: 'kategori-digital',
-}
-
-const toNumber = (price: string) => Number(price.replace(/\D/g, ''))
-
-export function productMeta(p: Product) {
-  if (p.meta) return p.meta
-  const plans = p.blocks.flatMap((b) => (b.type === 'plans' ? b.rows : []))
-  if (!plans.length) return 'Tanya admin'
-  const low = plans.reduce((a, b) => (toNumber(b.price) < toNumber(a.price) ? b : a))
-  return `Mulai ${low.price}`
-}
-
-export function productText(p: Product) {
-  const parts: string[] = [p.title, p.desc, p.category]
-  for (const b of p.blocks) {
-    if (b.type === 'plans') parts.push(...b.rows.flatMap((r) => [r.name, r.price, r.tag ?? '']), b.title ?? '')
-    else if (b.type === 'list') parts.push(b.title, ...b.items)
-    else if (b.type === 'compare') parts.push(b.title, ...b.sides.flatMap((x) => [x.title, ...x.items]))
-    else if (b.type === 'chips') parts.push(...b.items)
-    else if (b.type === 'links') parts.push(...b.rows.flatMap((r) => [r.name, r.desc ?? '']))
-    else if (b.type === 'note') parts.push(b.text)
-    else parts.push(b.value, b.label)
-  }
-  const text = parts.join(' ').toLowerCase()
-  return `${text} ${text.replace(/\./g, '')}`
-}

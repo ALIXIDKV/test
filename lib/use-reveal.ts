@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-// Menandai elemen dengan data-visible saat masuk viewport (sekali saja).
-// Animasinya sendiri ada di CSS (.reveal), jadi tidak ada library tambahan.
+// Menandai elemen dengan data-visible saat pertama kali masuk viewport; animasinya ada di CSS (.reveal)
 export function useReveal<T extends HTMLElement>() {
   const ref = useRef<T>(null)
 
