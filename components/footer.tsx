@@ -1,3 +1,4 @@
+import { ArrowUp } from 'lucide-react'
 import { LogoMark } from '@/components/logo-mark'
 import { admin, channel, group } from '@/lib/site'
 
@@ -16,12 +17,12 @@ const communityLinks = [
   { label: 'Chat Admin', href: admin },
 ]
 
-const linkClass = 'block w-fit py-1.5 transition-colors hover:text-white'
+const linkClass = 'block w-fit py-2 transition-colors hover:text-white'
 
 export function Footer() {
   return (
-    // pb-24 di mobile: memberi ruang agar baris terakhir tidak tertutup tombol floating
-    <footer className="border-t border-white/10 px-5 pb-24 pt-12 lg:px-8 lg:pb-12">
+    // pb-20 di mobile: memberi ruang agar baris terakhir tidak tertutup tombol WhatsApp
+    <footer className="border-t border-white/10 px-5 pb-20 pt-12 lg:px-8 lg:pb-12">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <a href="#beranda" className="flex items-center gap-2.5">
@@ -53,8 +54,11 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-10 max-w-7xl border-t border-white/10 pt-6 text-xs text-muted-foreground">
-        © 2026 ANDRI OFFICIAL. Semua hak dilindungi.
+      <div className="mx-auto mt-10 flex max-w-7xl flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-white/10 pt-4 text-xs text-muted-foreground">
+        <p>© 2026 ANDRI OFFICIAL. Semua hak dilindungi.</p>
+        <a href="#beranda" className="inline-flex min-h-11 items-center gap-1.5 rounded-lg pr-1 font-medium transition-colors hover:text-white">
+          <ArrowUp className="size-4" /> Kembali ke atas
+        </a>
       </div>
     </footer>
   )

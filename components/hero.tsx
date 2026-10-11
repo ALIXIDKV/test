@@ -20,17 +20,17 @@ const stats = [
 
 export function Hero() {
   return (
-    <section id="beranda" className="relative -scroll-mt-20 overflow-hidden">
+    <section id="beranda" className="relative -scroll-mt-18 overflow-hidden">
       <div aria-hidden="true" className="hero-grid pointer-events-none absolute inset-0" />
 
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-28 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:px-8 lg:pb-24 lg:pt-36">
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-10 pt-24 sm:pb-14 sm:pt-28 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:px-8 lg:pb-24 lg:pt-36">
         <div className="fade-up min-w-0">
           <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1.5 text-xs font-medium text-muted-foreground">
             <span className="size-1.5 rounded-full bg-cyan-accent" />
             Digital & Kreatif Store
           </p>
 
-          <h1 className="mt-6 text-[1.875rem] font-bold leading-[1.12] tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-5 text-[1.75rem] min-[360px]:text-[1.875rem] font-bold leading-[1.12] tracking-tight text-white sm:text-5xl lg:text-6xl">
             Layanan digital lengkap,{' '}
             <span className="text-cyan-accent">pesan lewat satu chat.</span>
           </h1>

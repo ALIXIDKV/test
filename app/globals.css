@@ -91,10 +91,16 @@
   }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 4.5rem;
   }
   body {
     @apply bg-background text-foreground;
+    overflow-wrap: break-word;
+  }
+  /* Focus terlihat jelas untuk semua tautan dan tombol; utilitas outline-none tetap bisa menimpa */
+  :where(a, button, input):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 }
 

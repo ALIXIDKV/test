@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowUpRight, Check, ChevronDown, MessageCircle, Search, Sparkles, Star, X } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -24,12 +24,12 @@ const adminLink = { href: admin, target: '_blank', rel: 'noreferrer' } as const
 
 let scrollTimer: number | undefined
 
-// Tunggu animasi accordion (300ms) selesai supaya posisi akhir kartu sudah pasti
+// Tunggu animasi accordion (250ms) selesai supaya posisi akhir kartu sudah pasti
 function scrollToId(ids: string[], block: ScrollLogicalPosition) {
   window.clearTimeout(scrollTimer)
   scrollTimer = window.setTimeout(() => {
     ids.map((id) => document.getElementById(id)).find(Boolean)?.scrollIntoView({ block })
-  }, 320)
+  }, 270)
 }
 
 function BlockView({ block }: { block: Block }) {
@@ -48,7 +48,7 @@ function BlockView({ block }: { block: Block }) {
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <span className="text-sm font-semibold text-white">{r.name}</span>
                     {r.tag && (
-                      <span className={cn('rounded px-1.5 py-0.5 text-[11px] font-bold', r.tag === 'FULLGAR' ? 'bg-primary/20 text-cyan-accent' : 'bg-white/10 text-muted-foreground')}>
+                      <span className={cn('rounded px-1.5 py-0.5 text-xs font-bold', r.tag === 'FULLGAR' ? 'bg-primary/20 text-cyan-accent' : 'bg-white/10 text-muted-foreground')}>
                         {r.tag}
                       </span>
                     )}
@@ -196,7 +196,7 @@ function ProductCard({ product, index, open, onToggle }: { product: Product; ind
       <div
         id={`${product.id}-detail`}
         inert={!open}
-        className={cn('grid transition-[grid-template-rows] duration-300 ease-out', open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}
+        className={cn('grid transition-[grid-template-rows] duration-[250ms] ease-out', open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}
       >
         <div className="min-h-0 overflow-hidden">
           <div className="grid gap-5 border-t border-border p-3.5 sm:p-4">
@@ -217,6 +217,8 @@ export function Catalog() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<Filter>('Semua')
   const [open, setOpen] = useState<string | null>(null)
+  const toolbarRef = useRef<HTMLDivElement>(null)
+  const chipsRef = useRef<HTMLDivElement>(null)
 
   const found = useMemo(() => search(query), [query])
   const visible = found.filter((p) => category === 'Semua' || p.category === category)
@@ -230,6 +232,21 @@ export function Catalog() {
     setCategory('Semua')
     const result = search(value)
     setOpen(value.trim() && result.length === 1 ? result[0].id : null)
+  }
+
+  // Chip aktif selalu diposisikan di tengah baris yang bisa digeser, juga saat kategori diganti lewat anchor
+  useEffect(() => {
+    const row = chipsRef.current
+    const chip = row?.querySelector<HTMLElement>('[aria-pressed="true"]')
+    if (!row || !chip) return
+    row.scrollTo({ left: chip.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2 })
+  }, [category])
+
+  // Ganti kategori saat daftar sudah di-scroll: kembalikan ke awal daftar supaya tidak tersesat di tengah halaman
+  const onCategory = (name: Filter) => {
+    setCategory(name)
+    const top = toolbarRef.current?.getBoundingClientRect().top ?? 0
+    if (top < 72) window.scrollTo({ top: window.scrollY + top - 80 })
   }
 
   const onToggle = (id: string) => {
@@ -279,71 +296,71 @@ export function Catalog() {
   ]
 
   return (
-    <section id="layanan" className="border-y border-white/[0.08] bg-white/[0.015] px-5 py-14 sm:py-16 lg:px-8">
+    <section id="layanan" className="-scroll-mt-6 border-y border-white/[0.08] bg-white/[0.015] px-5 pb-12 pt-8 sm:pb-16 sm:pt-12 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 max-w-2xl">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-primary">KATALOG LAYANAN</p>
-          <h2 className="text-2xl font-black tracking-tight text-white sm:text-3xl md:text-4xl">🚀 DAFTAR LAYANAN ANDRI OFFICIAL</h2>
-          <p className="mt-3 text-muted-foreground">Berbagai layanan digital yang tersedia dalam satu tempat.</p>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-cyan-accent">KATALOG LAYANAN</p>
+          <h2 className="text-balance text-2xl font-black tracking-tight text-white sm:text-3xl md:text-4xl">🚀 DAFTAR LAYANAN ANDRI OFFICIAL</h2>
+          <p className="mt-2 text-muted-foreground">Berbagai layanan digital yang tersedia dalam satu tempat.</p>
         </div>
 
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            value={query}
-            onChange={(e) => onSearch(e.target.value)}
-            placeholder="Cari produk, paket, harga, atau negara..."
-            aria-label="Cari produk"
-            className="h-12 w-full rounded-xl border border-border bg-card pl-10 pr-11 text-base text-white outline-none transition-colors placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/30 sm:text-sm"
-          />
-          {query && (
-            <button
-              type="button"
-              aria-label="Hapus pencarian"
-              onClick={() => onSearch('')}
-              className="absolute right-1.5 top-1/2 grid size-9 -translate-y-1/2 place-items-center rounded-lg text-muted-foreground transition-colors hover:text-white"
-            >
-              <X className="size-4" />
-            </button>
-          )}
-        </div>
-
-        {/* Mobile: chip yang bisa digeser horizontal. Desktop: membungkus ke baris berikutnya */}
-        <div
-          role="group"
-          aria-label="Filter kategori"
-          className="no-scrollbar -mx-5 mt-3 flex scroll-smooth gap-2 overflow-x-auto px-5 pb-1 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0"
-        >
-          {tabs.map(({ name, count, icon: Icon }) => {
-            const active = category === name
-            return (
+        <div ref={toolbarRef}>
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              value={query}
+              onChange={(e) => onSearch(e.target.value)}
+              placeholder="Cari produk, paket, harga, atau negara..."
+              aria-label="Cari produk"
+              className="h-12 w-full rounded-xl border border-border bg-card pl-10 pr-11 text-base text-white outline-none transition-colors placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/30 sm:text-sm"
+            />
+            {query && (
               <button
-                key={name}
                 type="button"
-                aria-pressed={active}
-                disabled={count === 0 && !active}
-                onClick={(e) => {
-                  setCategory(name)
-                  e.currentTarget.scrollIntoView({ inline: 'center', block: 'nearest' })
-                }}
-                className={cn(
-                  'inline-flex h-10 shrink-0 items-center gap-2 rounded-full border px-3.5 text-[13px] font-semibold outline-none transition duration-150 focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.97] disabled:opacity-40',
-                  active ? 'border-primary bg-primary/15 text-white' : 'border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-white',
-                )}
+                aria-label="Hapus pencarian"
+                onClick={() => onSearch('')}
+                className="absolute right-1 top-1/2 grid size-10 -translate-y-1/2 place-items-center rounded-lg text-muted-foreground transition-colors hover:text-white"
               >
-                <Icon className={cn('size-4', active ? 'text-cyan-accent' : 'text-muted-foreground')} />
-                {name}
-                <span className={cn('rounded-full px-1.5 py-px text-[11px] tabular-nums', active ? 'bg-primary/30 text-white' : 'bg-white/10')}>{count}</span>
+                <X className="size-4" />
               </button>
-            )
-          })}
+            )}
+          </div>
+
+          {/* Mobile: chip yang bisa digeser horizontal. Desktop: membungkus ke baris berikutnya */}
+          <div
+            role="group"
+            aria-label="Filter kategori"
+            ref={chipsRef}
+            className="no-scrollbar relative -mx-5 mt-3 flex scroll-smooth gap-2 overflow-x-auto overscroll-x-contain px-5 py-1 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0"
+          >
+            {tabs.map(({ name, count, icon: Icon }) => {
+              const active = category === name
+              return (
+                <button
+                  key={name}
+                  type="button"
+                  aria-pressed={active}
+                  disabled={count === 0 && !active}
+                  onClick={() => onCategory(name)}
+                  className={cn(
+                    'inline-flex h-10 shrink-0 items-center gap-2 rounded-full border px-3.5 text-[13px] font-semibold outline-none transition duration-150 focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.97] disabled:opacity-40',
+                    active ? 'border-cyan-accent/70 bg-primary/25 text-white' : 'border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-white',
+                  )}
+                >
+                  <Icon className={cn('size-4', active ? 'text-cyan-accent' : 'text-muted-foreground')} />
+                  {name}
+                  <span className={cn('rounded-full px-1.5 py-px text-xs tabular-nums', active ? 'bg-primary/30 text-white' : 'bg-white/10')}>{count}</span>
+                </button>
+              )
+            })}
+          </div>
         </div>
 
-        <p aria-live="polite" className="mb-4 mt-4 text-xs text-muted-foreground">
+        <p aria-live="polite" className="mb-3 mt-3 text-xs text-muted-foreground">
           {query.trim() ? `${visible.length} hasil untuk “${query.trim()}”` : `${visible.length} produk`}
         </p>
 
-        <div className="grid gap-8">
+        <div className="grid gap-6">
           {groups.map(({ name, items }) => {
             const Icon = categoryIcon[name]
             return (

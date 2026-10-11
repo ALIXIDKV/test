@@ -25,10 +25,10 @@ function Action({ href = admin, children }: { href?: string; children: ReactNode
 
 export function Contact() {
   return (
-    <section id="kontak" className="mx-auto max-w-7xl px-5 py-16 sm:py-20 lg:px-8">
+    <section id="kontak" className="mx-auto max-w-7xl -scroll-mt-8 px-5 py-12 sm:-scroll-mt-12 sm:py-16 lg:px-8">
       <div className="mb-8 max-w-2xl sm:mb-10">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-primary">TERHUBUNG DENGAN KAMI</p>
-        <h2 className="text-2xl font-black tracking-tight text-white sm:text-3xl md:text-4xl">📱 GABUNG KOMUNITAS ANDRI OFFICIAL</h2>
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-cyan-accent">TERHUBUNG DENGAN KAMI</p>
+        <h2 className="text-balance text-2xl font-black tracking-tight text-white sm:text-3xl md:text-4xl">📱 GABUNG KOMUNITAS ANDRI OFFICIAL</h2>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -54,7 +54,7 @@ export function Contact() {
 
 export function OrderCta() {
   return (
-    <section className="px-5 pb-16 sm:pb-20 lg:px-8">
+    <section className="px-5 pb-12 sm:pb-16 lg:px-8">
       <div className="mx-auto max-w-7xl rounded-3xl border border-white/10 bg-white/[0.06] p-6 text-center sm:p-8 md:p-14">
         <Sparkles className="mx-auto mb-5 text-primary" />
         <h2 className="text-2xl font-black text-white sm:text-3xl md:text-5xl">SIAP MELAKUKAN PEMESANAN?</h2>

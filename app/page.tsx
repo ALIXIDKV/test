@@ -1,6 +1,6 @@
 import { Catalog } from '@/components/catalog'
 import { Contact, OrderCta } from '@/components/contact'
-import { FloatingActions } from '@/components/floating-actions'
+import { FloatingWhatsApp } from '@/components/floating-whatsapp'
 import { Footer } from '@/components/footer'
 import { Hero } from '@/components/hero'
 import { Navbar } from '@/components/navbar'
@@ -16,7 +16,7 @@ export default function Page() {
         <OrderCta />
       </main>
       <Footer />
-      <FloatingActions />
+      <FloatingWhatsApp />
     </div>
   )
 }
