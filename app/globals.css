@@ -1,0 +1,116 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --color-cyan-accent: var(--cyan-accent);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* Cyber Blue — situs ini dark-only, jadi cukup satu set token */
+:root {
+  color-scheme: dark;
+  --background: #080f1c;
+  --foreground: #e8eefb;
+  --card: #0d1729;
+  --card-foreground: #e8eefb;
+  --popover: #0d1729;
+  --popover-foreground: #e8eefb;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #121f36;
+  --secondary-foreground: #e8eefb;
+  --muted: #121f36;
+  --muted-foreground: #8b9bb8;
+  --accent: #121f36;
+  --accent-foreground: #e8eefb;
+  --cyan-accent: #38bdf8;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: rgb(148 163 184 / 14%);
+  --input: rgb(148 163 184 / 18%);
+  --ring: #38bdf8;
+  --chart-1: #2563eb;
+  --chart-2: #38bdf8;
+  --chart-3: #1d4ed8;
+  --chart-4: #0ea5e9;
+  --chart-5: #1e3a8a;
+  --radius: 0.75rem;
+  --sidebar: #0d1729;
+  --sidebar-foreground: #e8eefb;
+  --sidebar-primary: #2563eb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #121f36;
+  --sidebar-accent-foreground: #e8eefb;
+  --sidebar-border: rgb(148 163 184 / 14%);
+  --sidebar-ring: #38bdf8;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Grid tipis di belakang hero, memudar ke bawah */
+  .hero-grid {
+    background-image:
+      linear-gradient(to right, rgb(56 189 248 / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(56 189 248 / 0.06) 1px, transparent 1px),
+      radial-gradient(56rem 26rem at 88% -8%, rgb(37 99 235 / 0.16), transparent 70%);
+    background-size: 48px 48px, 48px 48px, auto;
+    mask-image: linear-gradient(to bottom, #000 35%, transparent);
+  }
+}
