@@ -96,11 +96,6 @@
   body {
     @apply bg-background text-foreground;
   }
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
 }
 
 @layer components {
@@ -112,5 +107,49 @@
       radial-gradient(56rem 26rem at 88% -8%, rgb(37 99 235 / 0.16), transparent 70%);
     background-size: 48px 48px, 48px 48px, auto;
     mask-image: linear-gradient(to bottom, #000 35%, transparent);
+  }
+}
+
+@layer components {
+  /* Entrance hero: fade-up halus. Delay diatur lewat style animationDelay */
+  .fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  /* Scroll reveal kartu: disembunyikan hanya bila JS aktif, dibuka oleh useReveal */
+  @media (scripting: enabled) {
+    .reveal:not([data-visible]) {
+      opacity: 0;
+    }
+  }
+  .reveal[data-visible] {
+    animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  /* Baris chip yang bisa digeser tanpa scrollbar */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+/* Hormati "kurangi gerakan": animasi dan transisi dibuat instan */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

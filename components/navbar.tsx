@@ -6,6 +6,7 @@ import {
   Send, Server, ShieldCheck, Star, Terminal, TrendingUp, Users, X,
 } from 'lucide-react'
 import { Button, buttonVariants } from '@/components/ui/button'
+import { LogoMark } from '@/components/logo-mark'
 import { admin, channel, group } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
@@ -15,7 +16,8 @@ const menuGroups: { title: string; items: MenuItem[] }[] = [
   {
     title: 'Layanan',
     items: [
-      { label: 'Jadi Bot & Sewa Bot', desc: 'Paket harian sampai permanen', href: '#bot', icon: Bot },
+      { label: 'Jadi Bot', desc: '24 jam sampai permanen', href: '#bot', icon: Bot },
+      { label: 'Sewa Bot', desc: '1 hari sampai permanen', href: '#sewa-bot', icon: Bot },
       { label: 'SC Ourin Deluxe', desc: 'No update sampai full update', href: '#ourin', icon: Code2 },
       { label: 'Rename Script', desc: 'Rename biasa & sampai akar', href: '#rename', icon: Terminal },
       { label: 'Edit & Desain', desc: 'Foto, video, poster, banner', href: '#kreatif', icon: Palette },
@@ -84,17 +86,9 @@ export function Navbar() {
       >
         <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 lg:px-8">
           <a href="#beranda" className="flex min-w-0 items-center gap-2.5" onClick={() => setOpen(false)}>
-            <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-primary text-white">
-              <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
-                <path
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  d="M12 4 5 20h3.2l1.3-3.2h5l1.3 3.2H19L12 4Zm0 6.2 1.7 4.2h-3.4L12 10.2Z"
-                />
-              </svg>
-            </span>
+            <LogoMark />
             <span className="min-w-0 leading-none">
-              <strong className="block truncate text-[13px] font-bold tracking-wide text-white sm:text-sm">
+              <strong className="block truncate text-xs font-bold tracking-wide text-white min-[380px]:text-[13px] sm:text-sm">
                 ANDRI OFFICIAL
               </strong>
               <small className="mt-1 hidden text-[10px] font-medium tracking-[0.18em] text-muted-foreground sm:block">
@@ -106,7 +100,7 @@ export function Navbar() {
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <a
               href="#layanan"
-              className={cn(buttonVariants({ variant: 'outline', size: 'lg' }), 'h-10 px-3 text-[13px] sm:px-4')}
+              className={cn(buttonVariants({ variant: 'outline', size: 'lg' }), 'hidden h-10 px-3 text-[13px] min-[380px]:inline-flex sm:px-4')}
             >
               Katalog
             </a>
@@ -132,59 +126,64 @@ export function Navbar() {
               aria-controls="site-menu"
               onClick={() => setOpen((v) => !v)}
             >
-              {open ? <X className="size-5" /> : <Menu className="size-5" />}
+              <span className="relative block size-5">
+                <Menu className={cn('absolute inset-0 size-5 transition duration-200', open && 'rotate-90 scale-75 opacity-0')} />
+                <X className={cn('absolute inset-0 size-5 transition duration-200', !open && '-rotate-90 scale-75 opacity-0')} />
+              </span>
             </Button>
           </div>
 
-          {open && (
-            <nav
-              id="site-menu"
-              aria-label="Menu utama"
-              className="absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-border bg-background px-5 pb-6 pt-3 duration-200 animate-in fade-in slide-in-from-top-2 motion-reduce:animate-none md:inset-x-auto md:right-5 md:top-[calc(100%+0.5rem)] md:w-[620px] md:rounded-2xl md:border md:bg-card md:p-5 md:shadow-2xl md:shadow-black/50 lg:right-8"
-            >
-              <div className="grid gap-5 md:grid-cols-2 md:gap-x-6 md:gap-y-5">
-                {menuGroups.map((g) => (
-                  <div key={g.title}>
-                    <p className="mb-1.5 px-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-accent">
-                      {g.title}
-                    </p>
-                    <ul>
-                      {g.items.map(({ label, desc, href, icon: Icon, external }) => (
-                        <li key={label}>
-                          <a
-                            href={href}
-                            target={external ? '_blank' : undefined}
-                            rel={external ? 'noreferrer' : undefined}
-                            onClick={() => setOpen(false)}
-                            className="flex items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-white/5"
-                          >
-                            <span className="grid size-8 shrink-0 place-items-center rounded-md border border-border bg-secondary text-cyan-accent">
-                              <Icon className="size-4" />
-                            </span>
-                            <span className="min-w-0 flex-1">
-                              <span className="block text-sm font-medium text-white">{label}</span>
-                              <span className="hidden text-xs text-muted-foreground md:block">{desc}</span>
-                            </span>
-                            {external && <ArrowUpRight className="size-3.5 shrink-0 text-muted-foreground" />}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </nav>
-          )}
+          <nav
+            id="site-menu"
+            aria-label="Menu utama"
+            className={cn(
+              'absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-b border-border bg-background px-5 pb-5 pt-2 transition-[opacity,translate,visibility] duration-200 ease-out md:inset-x-auto md:right-5 md:top-[calc(100%+0.5rem)] md:w-[620px] md:rounded-2xl md:border md:bg-card md:p-5 md:shadow-2xl md:shadow-black/50 lg:right-8',
+              open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0',
+            )}
+          >
+            <div className="grid gap-3 md:grid-cols-2 md:gap-x-6 md:gap-y-5">
+              {menuGroups.map((g) => (
+                <div key={g.title}>
+                  <p className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-accent">
+                    {g.title}
+                  </p>
+                  <ul>
+                    {g.items.map(({ label, desc, href, icon: Icon, external }) => (
+                      <li key={label}>
+                        <a
+                          href={href}
+                          target={external ? '_blank' : undefined}
+                          rel={external ? 'noreferrer' : undefined}
+                          onClick={() => setOpen(false)}
+                          className="flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-white/5 active:bg-white/10 md:py-2"
+                        >
+                          <span className="grid size-8 shrink-0 place-items-center rounded-md border border-border bg-secondary text-cyan-accent">
+                            <Icon className="size-4" />
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-sm font-medium text-white">{label}</span>
+                            <span className="hidden text-xs text-muted-foreground md:block">{desc}</span>
+                          </span>
+                          {external && <ArrowUpRight className="size-3.5 shrink-0 text-muted-foreground" />}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </nav>
         </div>
       </header>
 
-      {open && (
-        <div
-          aria-hidden="true"
-          className="fixed inset-0 z-40 bg-[#040810]/60 duration-200 animate-in fade-in motion-reduce:animate-none"
-          onClick={() => setOpen(false)}
-        />
-      )}
+      <div
+        aria-hidden="true"
+        className={cn(
+          'fixed inset-0 z-40 bg-[#040810]/60 transition-opacity duration-200',
+          open ? 'opacity-100' : 'pointer-events-none opacity-0',
+        )}
+        onClick={() => setOpen(false)}
+      />
     </>
   )
 }

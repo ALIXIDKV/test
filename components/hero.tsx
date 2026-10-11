@@ -15,22 +15,22 @@ const showcase = [
 const stats = [
   ['Rp2.000', 'Mulai dari'],
   ['1500+', 'Fitur bot'],
-  ['24 Jam', 'Dukungan'],
+  ['16', 'Pilihan negara'],
 ]
 
 export function Hero() {
   return (
-    <section id="beranda" className="relative overflow-hidden">
+    <section id="beranda" className="relative -scroll-mt-20 overflow-hidden">
       <div aria-hidden="true" className="hero-grid pointer-events-none absolute inset-0" />
 
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-28 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:px-8 lg:pb-24 lg:pt-36">
-        <div className="duration-700 animate-in fade-in slide-in-from-bottom-3 motion-reduce:animate-none">
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-28 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:px-8 lg:pb-24 lg:pt-36">
+        <div className="fade-up min-w-0">
           <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1.5 text-xs font-medium text-muted-foreground">
             <span className="size-1.5 rounded-full bg-cyan-accent" />
             Digital & Kreatif Store
           </p>
 
-          <h1 className="mt-6 text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 text-[1.875rem] font-bold leading-[1.12] tracking-tight text-white sm:text-5xl lg:text-6xl">
             Layanan digital lengkap,{' '}
             <span className="text-cyan-accent">pesan lewat satu chat.</span>
           </h1>
@@ -69,7 +69,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="duration-700 animate-in fade-in slide-in-from-bottom-4 motion-reduce:animate-none">
+        <div className="min-w-0">
           <div className="rounded-2xl border border-border bg-card/80 p-3 backdrop-blur sm:p-4">
             <div className="mb-3 flex items-center justify-between px-1">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -82,11 +82,10 @@ export function Hero() {
 
             <ul className="grid grid-cols-2 gap-2.5">
               {showcase.map(({ icon: Icon, name, desc, meta, href }, i) => (
-                <li key={name}>
+                <li key={name} className="fade-up" style={{ animationDelay: `${150 + i * 60}ms` }}>
                   <a
                     href={href}
-                    style={{ animationDelay: `${150 + i * 70}ms` }}
-                    className="group flex h-full flex-col rounded-xl border border-border bg-background/60 p-3.5 transition duration-200 animate-in fade-in slide-in-from-bottom-2 fill-mode-backwards hover:-translate-y-0.5 hover:border-cyan-accent/40 hover:bg-secondary motion-reduce:animate-none"
+                    className="group flex h-full flex-col rounded-xl border border-border bg-background/60 p-3 transition duration-200 hover:-translate-y-0.5 hover:border-primary/60 hover:bg-secondary active:scale-[0.98] sm:p-3.5"
                   >
                     <div className="flex items-start justify-between">
                       <span className="grid size-9 place-items-center rounded-lg bg-primary/15 text-cyan-accent">
@@ -104,7 +103,7 @@ export function Hero() {
 
             <a
               href="#layanan"
-              className="mt-3 flex items-center justify-between rounded-xl bg-primary/10 px-4 py-3 text-sm font-medium text-cyan-accent transition-colors hover:bg-primary/20"
+              className="mt-3 flex min-h-11 items-center justify-between rounded-xl bg-primary/10 px-4 py-3 text-sm font-medium text-cyan-accent transition duration-200 hover:bg-primary/20 active:scale-[0.99]"
             >
               Lihat semua layanan
               <ArrowUpRight className="size-4" />
