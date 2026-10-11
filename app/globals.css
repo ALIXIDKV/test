@@ -103,6 +103,20 @@
 }
 
 @layer components {
+  /* Fallback statis bila WebGL2 gagal / sebelum canvas siap; canvas transparan di atasnya */
+  .hero-waves {
+    background:
+      radial-gradient(60rem 24rem at 80% 0%, rgb(37 99 235 / 0.28), transparent 70%),
+      radial-gradient(50rem 22rem at 10% 100%, rgb(56 189 248 / 0.12), transparent 70%),
+      #0b1730;
+  }
+
+  .hero-overlay {
+    background:
+      linear-gradient(to bottom, rgb(8 15 28 / 0.55), rgb(8 15 28 / 0.35) 45%, #080f1c 100%),
+      linear-gradient(to right, rgb(8 15 28 / 0.5), transparent 70%);
+  }
+
   .hero-grid {
     background-image:
       linear-gradient(to right, rgb(56 189 248 / 0.06) 1px, transparent 1px),

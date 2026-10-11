@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowUpRight, MessageCircle } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
+import GradientWaves from '@/components/gradient-waves'
 import { categories, products } from '@/config/products'
 import { links } from '@/config/site'
 import { categoryMeta, categorySlug, lowestPrice } from '@/lib/products'
@@ -17,6 +18,31 @@ const delay = (ms: number) => ({ animationDelay: `${ms}ms` })
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
+      <div aria-hidden="true" className="hero-waves pointer-events-none absolute inset-0">
+        <GradientWaves
+          horizonColor="#0B1730"
+          waveColor="#2563EB"
+          crestColor="#38BDF8"
+          speed={0.5}
+          amplitude={1.8}
+          waveScale={0.6}
+          waveRatio={0.9}
+          swell={28}
+          turbulence={10}
+          tilt={1}
+          zoom={1.0}
+          height={5.5}
+          fogDepth={20}
+          detail="low"
+          brightness={0.85}
+          opacity={0.75}
+          mouseInteraction={true}
+          parallaxStrength={0.02}
+          grain={false}
+          grainIntensity={0}
+        />
+      </div>
+      <div aria-hidden="true" className="hero-overlay pointer-events-none absolute inset-0" />
       <div aria-hidden="true" className="hero-grid pointer-events-none absolute inset-0" />
 
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-10 pt-24 sm:pb-14 sm:pt-28 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:px-8 lg:pb-24 lg:pt-36">
